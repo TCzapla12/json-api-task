@@ -14,8 +14,8 @@ export default function ProductCard(props) {
         return Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100;
     }
 
-    function getClassAvailability(value){
-        if(value===1){
+    function getClassAvailability(value) {
+        if (value > 0) {
             return "in-stock"
         } else return "out-of-stock"
 
@@ -38,9 +38,12 @@ export default function ProductCard(props) {
                 <h6>Net: {props.product.price}$<br />
                     Gross: {props.product.promotion ? <span><span className='text-danger old-price'>{getOldPrice(props.product)}$</span> {getGrossPrice(props.product)}</span> : <span>{getGrossPrice(props.product)}</span>}$
                 </h6>
-                <h6 className={getClassAvailability(props.product.is_salable)}>
-                {props.product.is_salable === 1 ? 'In Stock' : 'Out of Stock'}
-                </h6>
+                <div className="stock">
+                    <h6 className={getClassAvailability(props.product.stock)}>
+                        {props.product.stock > 0 ? `In Stock: ${props.product.stock}` : 'Out of Stock'}
+                    </h6>
+                </div>
+
             </li>
         </ul>
     </div>

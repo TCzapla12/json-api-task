@@ -20,14 +20,12 @@ export default function ProductsList() {
         manufacturer: ''
     }
 
-    
-
     function searchProducts(values) {
         if (values.availability === 'available') {
-            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock>0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
         }
         else if (values.availability === 'notAvailable') {
-            setProductsList(products.filter((product) => { return product.is_salable === 0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock===0 &&product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
         }
         else {
             setProductsList(products.filter((product) => { return product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
@@ -38,8 +36,8 @@ export default function ProductsList() {
         <Formik initialValues={initialValues} onSubmit={(values) => searchProducts(values)}>{(formikProps) => (
             <>
                 <Form>
-                    <div className="row gx-3 align-items-center mb-3 gy-3">
-                        <div className="col-auto input">
+                    <div className="filters">
+                        <div className="col-auto manufacturer-filter">
                             <input type="text" className="form-control" id="manufacturer" placeholder="Manufacturer" {...formikProps.getFieldProps("manufacturer")} />
                         </div>
                         <div className="col-auto">
@@ -68,46 +66,13 @@ export default function ProductsList() {
                         </div>
                     </div>
                 </Form>
-                <div className="product-list">
+                <div className="products-list">
                     {productsList?.map((product) => (
-                        <ProductCard product={product} key={product.entity_id} />
-
-                    )
+                        <ProductCard product={product} key={product.entity_id} />)
                     )}
                 </div>
 
             </>
         )}</Formik>
-
-
-
-
-        {/* 
-        {productsList ? <table className="table">
-            <thead></thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>Availability</th>
-                <th>Price (net/gross)</th>
-                <th>New Product</th>
-            </tr>
-
-            <tbody>
-                {productsList?.map((product) => (
-                    // <ProductCard product={product} key={product.entity_id} />
-                    // <tr key={product.entity_id}>
-                    //     <td>{product.name}</td>
-                    //     <td>{product.description}</td>
-                    //     <td>{product.manufacturer}</td>
-                    //     <td>{product.is_salable === 1 ? 'In Stock' : 'Out of Stock'}</td>
-                    //     <td>{product.price}/{getGrossPrice(product)} {product.promotion ? `(${product.promotion})` : null}</td>
-                    //     <td>{product.new_product ? 'Yes' : null}</td>
-                    // </tr>
-                )
-                )}
-            </tbody>
-        </table> : null} */}
     </>
 }
