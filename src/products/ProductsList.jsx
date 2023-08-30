@@ -1,12 +1,12 @@
 import { Form, Formik } from "formik";
 import { useQuery } from "jsonapi-react";
 import { useState, useEffect } from "react";
-import { indirectUrlProducts } from "../endpoints";
 import ProductCard from "./ProductCard";
 import './ProductsList.css'
+import { productsURL } from "../endpoints";
 
 export default function ProductsList() {
-    const { products } = useQuery(indirectUrlProducts);
+    const { products } = useQuery(productsURL);
     const [productsList, setProductsList] = useState([]);
 
     useEffect(() => {
@@ -21,14 +21,16 @@ export default function ProductsList() {
     }
 
     function searchProducts(values) {
-        if (values.availability === 'available') {
-            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock>0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
-        }
-        else if (values.availability === 'notAvailable') {
-            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock===0 &&product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
-        }
-        else {
-            setProductsList(products.filter((product) => { return product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+        if (products) {
+            if (values.availability === 'available') {
+                setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock > 0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+            }
+            else if (values.availability === 'notAvailable') {
+                setProductsList(products.filter((product) => { return product.is_salable === 1 && product.stock === 0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+            }
+            else {
+                setProductsList(products.filter((product) => { return product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
+            }
         }
     }
 
