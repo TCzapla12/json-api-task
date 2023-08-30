@@ -2,6 +2,8 @@ import { Form, Formik } from "formik";
 import { useQuery } from "jsonapi-react";
 import { useState, useEffect } from "react";
 import { indirectUrlProducts } from "../endpoints";
+import ProductCard from "./ProductCard";
+import './ProductsList.css'
 
 export default function ProductsList() {
     const { products } = useQuery(indirectUrlProducts);
@@ -18,13 +20,7 @@ export default function ProductsList() {
         manufacturer: ''
     }
 
-    function getGrossPrice(product) {
-        let netPrice = product.price;
-        if (product.promotion_discount > 0) {
-            netPrice = netPrice * (1 - (product.promotion_discount / 100));
-        }
-        return Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100;
-    }
+    
 
     function searchProducts(values) {
         if (values.availability === 'available') {
@@ -72,8 +68,21 @@ export default function ProductsList() {
                         </div>
                     </div>
                 </Form>
+                <div className="product-list">
+                    {productsList?.map((product) => (
+                        <ProductCard product={product} key={product.entity_id} />
+
+                    )
+                    )}
+                </div>
+
             </>
         )}</Formik>
+
+
+
+
+        {/* 
         {productsList ? <table className="table">
             <thead></thead>
             <tr>
@@ -84,18 +93,21 @@ export default function ProductsList() {
                 <th>Price (net/gross)</th>
                 <th>New Product</th>
             </tr>
+
             <tbody>
                 {productsList?.map((product) => (
-                    <tr key={product.entity_id}>
-                        <td>{product.name}</td>
-                        <td>{product.description}</td>
-                        <td>{product.manufacturer}</td>
-                        <td>{product.is_salable === 1 ? 'In Stock' : 'Out of Stock'}</td>
-                        <td>{product.price}/{getGrossPrice(product)} {product.promotion ? `(${product.promotion})` : null}</td>
-                        <td>{product.new_product ? 'Yes' : null}</td>
-                    </tr>)
+                    // <ProductCard product={product} key={product.entity_id} />
+                    // <tr key={product.entity_id}>
+                    //     <td>{product.name}</td>
+                    //     <td>{product.description}</td>
+                    //     <td>{product.manufacturer}</td>
+                    //     <td>{product.is_salable === 1 ? 'In Stock' : 'Out of Stock'}</td>
+                    //     <td>{product.price}/{getGrossPrice(product)} {product.promotion ? `(${product.promotion})` : null}</td>
+                    //     <td>{product.new_product ? 'Yes' : null}</td>
+                    // </tr>
+                )
                 )}
             </tbody>
-        </table> : null}
+        </table> : null} */}
     </>
 }

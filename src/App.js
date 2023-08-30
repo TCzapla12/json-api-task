@@ -4,7 +4,10 @@ import ProductsList from './products/ProductsList';
 
 function App() {
   return (
-    <ProductsList></ProductsList>
+    <div className='container my-4'>
+      <ProductsList></ProductsList>
+    </div>
+
   );
 }
 
