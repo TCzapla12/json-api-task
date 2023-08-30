@@ -7,11 +7,11 @@ export default function ProductCard(props) {
         if (product.promotion_discount > 0) {
             netPrice = netPrice * (1 - (product.promotion_discount / 100));
         }
-        return Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100;
+        return (Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100).toFixed(2);
     }
     function getOldPrice(product) {
         let netPrice = product.price;
-        return Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100;
+        return (Math.round(((netPrice * (1 + (product.tax / 100))) * 100)) / 100).toFixed(2);
     }
 
     function getClassAvailability(value) {
@@ -32,7 +32,7 @@ export default function ProductCard(props) {
                 </div>
             </li>
             <li className="list-group-item card-footer">
-                <h6>Net: {props.product.price}$
+                <h6>Net: {props.product.price.toFixed(2)}$
                     <br />
                     Gross: {props.product.promotion 
                     ? <><span className='text-danger old-price'>{getOldPrice(props.product)}$</span> {getGrossPrice(props.product)}</> 
