@@ -24,13 +24,13 @@ export default function ProductsList() {
 
     function searchProducts(values) {
         if (values.availability === 'available') {
-            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.manufacturer.includes(values.manufacturer) }));
+            setProductsList(products.filter((product) => { return product.is_salable === 1 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
         }
         else if (values.availability === 'notAvailable') {
-            setProductsList(products.filter((product) => { return product.is_salable === 0 && product.manufacturer.includes(values.manufacturer) }));
+            setProductsList(products.filter((product) => { return product.is_salable === 0 && product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
         }
         else {
-            setProductsList(products.filter((product) => { return product.manufacturer.includes(values.manufacturer) }));
+            setProductsList(products.filter((product) => { return product.manufacturer.toLowerCase().includes(values.manufacturer.toLowerCase()) }));
         }
     }
 
@@ -39,8 +39,8 @@ export default function ProductsList() {
             <>
                 <Form>
                     <div className="row gx-3 align-items-center mb-3 gy-3">
-                        <div className="col-auto w-25">
-                            <input type="text" className="form-control" id="manufacturer" placeholder="Name of the manufacturer" {...formikProps.getFieldProps("manufacturer")} />
+                        <div className="col-auto input">
+                            <input type="text" className="form-control" id="manufacturer" placeholder="Manufacturer" {...formikProps.getFieldProps("manufacturer")} />
                         </div>
                         <div className="col-auto">
                             <select className="form-select" {...formikProps.getFieldProps("availability")}
