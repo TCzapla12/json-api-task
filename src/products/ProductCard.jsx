@@ -16,34 +16,31 @@ export default function ProductCard(props) {
 
     function getClassAvailability(value) {
         if (value > 0) {
-            return "in-stock"
-        } else return "out-of-stock"
-
+            return "";
+        } else return "out-of-stock-block";
     }
 
     return <div className="card">
         <ul className='list-group'>
-            <li className="list-group-item">
+            <li className="list-group-item pb-0">
                 <h5 className="card-title">{props.product.name}</h5>
-                <div className=''>
-                    {props.product.new_product ? <div className="btn btn-primary btn-sm rounded-pill me-2 cursor-default">New</div> : null}
-                    {props.product.promotion ? <div className="btn btn-danger btn-sm rounded-pill cursor-default">{props.product.promotion}</div>
-                        : null}
-                </div>
+                {props.product.new_product ? <div className="btn btn-primary btn-sm rounded-pill me-2 cursor-default">New</div> : null}
+                {props.product.promotion ? <div className="btn btn-danger btn-sm rounded-pill cursor-default">{props.product.promotion}</div> : null}
                 <div className='card-text mt-2'>
-                    <span className='card-details'>Manufacturer: </span><span>{props.product.manufacturer}</span>
-                    <p className="mt-4 card-details-2">{props.product.description}</p>
-                </div></li>
-            <li className="list-group-item card-footer">
-                <h6>Net: {props.product.price}$<br />
-                    Gross: {props.product.promotion ? <span><span className='text-danger old-price'>{getOldPrice(props.product)}$</span> {getGrossPrice(props.product)}</span> : <span>{getGrossPrice(props.product)}</span>}$
-                </h6>
-                <div className="stock">
-                    <h6 className={getClassAvailability(props.product.stock)}>
-                        {props.product.stock > 0 ? `In Stock: ${props.product.stock}` : 'Out of Stock'}
-                    </h6>
+                    <span className='card-details'>Manufacturer: </span>{props.product.manufacturer}
+                    <p className="card-description">{props.product.description}</p>
                 </div>
-
+            </li>
+            <li className="list-group-item card-footer">
+                <h6>Net: {props.product.price}$
+                    <br />
+                    Gross: {props.product.promotion 
+                    ? <><span className='text-danger old-price'>{getOldPrice(props.product)}$</span> {getGrossPrice(props.product)}</> 
+                    : <span>{getGrossPrice(props.product)}</span>}$
+                </h6>
+                <h6 className={`stock-block ${getClassAvailability(props.product.stock)}`}>
+                    {props.product.stock > 0 ? `In Stock: ${props.product.stock}` : 'Out of Stock'}
+                </h6>
             </li>
         </ul>
     </div>
